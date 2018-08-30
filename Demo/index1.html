@@ -1,0 +1,29 @@
+<html>
+	<head></head>
+	<body>
+		<input type="text" id="user">
+		<input type="password" id="pass">
+		<button id="submit">提交</button>
+	</body>
+	<script>
+		submit.onclick = function(){
+
+		var ajax = new XMLHttpRequest();
+
+		ajax.open('get','http://localhost:9217?user='+ user.value +'&pass='+pass.value,true);
+
+		ajax.send();
+		console.log(ajax.readyState);
+		ajax.onreadystatechange = function(){
+			// console.log(ajax.readyState);
+			if( ajax.readyState == 4 ){
+				if( ajax.status >= 200 && ajax.status < 300 || ajax.status == 304 ){
+					console.log(ajax.responseText);
+				}else{
+					console.log('服务器错误');
+				}
+			}
+		}
+		}
+	</script>
+</html>
