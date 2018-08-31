@@ -9,16 +9,13 @@
 		submit.onclick = function(){
 
 			ajax({
-				url: 'http://localhost:9217',
-				type: 'get',
+				url: 'http://localhost:9218',
+				type: 'post',
 				data: {
 					user: user.value,
 					pass: pass.value
 				},
 				success: function(data){
-					// if( data ){
-
-					// }
 					console.log(data);
 				},
 				error: function(){
@@ -32,12 +29,22 @@
 
 		function ajax(option){
 
-			var ajax = new XMLHttpRequest();
-			ajax.open( option.type , option.url +'?'+ jsonToString(option.data) ,true);
-			ajax.send();
-			console.log(ajax.readyState);
+			if( window.XMLHttpRequest ){
+				var ajax = new XMLHttpRequest();	
+			}else{
+				var ajax = new ActiveXObject( "Microsoft.XMLHTTP" );
+			}
+			
+			if( option.type == 'get' ){
+				ajax.open('get', option.url +'?'+ JsonToString(option.data) ,true);
+				ajax.send();
+			}else if( option.type == 'post' ){
+				ajax.open('post', option.url,true);
+				ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+				ajax.send(JsonToString(option.data));
+			}
+
 			ajax.onreadystatechange = function(){
-				//console.log(ajax.readyState);
 				if( ajax.readyState == 4 ){
 					if( ajax.status >= 200 && ajax.status < 300 || ajax.status == 304 ){
 						option.success(ajax.responseText);
@@ -46,15 +53,16 @@
 					}
 				}
 			}
+
+			function JsonToString(json){
+				var arr = [];
+				for(var i in json){
+					arr.push(i+'='+json[i]);
+				};
+				return arr.join('&');
+			}
 		}
 
-		function jsonToString(json){
-			var data = "";
-			for(var i in json){
-				data += i + '='+json[i]+'&';
-			}
-			return data;
-		}
 
 	</script>
 </html>

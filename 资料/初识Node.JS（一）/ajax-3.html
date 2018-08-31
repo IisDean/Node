@@ -1,0 +1,34 @@
+<!doctype html> 
+<html> 
+<head> 
+    <meta charset="utf-8"> 
+    <title></title> 
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+</head>
+<body>
+用户:<input id='user'><br>
+密码:<input id='pass'><br>
+<input type='button' value='登录' id='btn'>
+<script type="text/javascript">
+	
+var xhr = new XMLHttpRequest();
+xhr.open('post','http://localhost:9217',true);
+xhr.send('user=leo&pass=123456');
+xhr.onreadystatechange = function(){
+	if(xhr.readyState == 4){
+		if(xhr.status>=200 && xhr.status<300 || xhr.status == 304){
+			console.log(xhr.responseText);
+		}
+	}
+}
+/*
+xhr.onload = function(){
+	if()
+}
+*/
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+writeFile
+readFile
+unlink(要删除的文件名称，fn(err){});
+rename(要修改的文件名,要修的文件名,fn(err));

@@ -1,0 +1,171 @@
+找 朱贺武 考上个月我的视频 课件 笔记
+
+第三天 会有一个小考试 - 
+第六天 会有一个大考试 - 不及格就直接末回去【针对 升班】
+
+下个月带实训1 - 实训3
+
+jquery  -  api  x
+		   拓展  x
+		   运动  x
+		   插件  x
+
+angular  -  $scope  o
+		 -  ng-app  o
+		 -  $http $interval  x
+		 -  filter('名字',fn){ return function(){}} x
+
+
+不一定带一个月 
+中途有node 老师 我会 可能只讲一个班
+
+ajax ->
+1-2天
+node ->
+3-6 node 基础
+7-8 npm 包？
+cookie session -> *
+9-14 express
+jade - > 15
+mysql - 16 -18 增删改查
+留言板？注册登陆？webqq？
+
+
+
+
+
+
+ajax 
+
+get  x
+
+post x
+
+同步 -
+
+异步 -
+
+状态码
+
+ajax 订外卖
+	手机（app）
+	找到地址
+	下单
+	商家 接单 - 拒单
+	吃
+
+wd = word 
+get :  数据都在地址栏里 不安全 32kb 方便
+post:  加密传输 安全 2gb 不方便 传任意的东西
+
+同步：一个人一个人干
+异步：一起干
+
+后台 
+php java .net C C++ nodeJs
+
+前端人员 ->  全栈 -> 
+php -> 
+nodeJS -> js
+前端 -> nodeJs 
+
+nodejs vs php
+  1s      86s
+ 200台   400w台
+
+中文 ： http://nodejs.cn/
+英文 ： https://nodejs.org/en/
+
+内置型 ： js
+编译型 ： nodejs obj-c
+
+window - 开始 - 运行 - cmd 回车
+
+node - 如果有就安装了
+没有的话就是 commend not found
+node -v 看版本
+node 装在电脑里面了 只能用终端去操作
+ls 指令 查看文件夹里面的内容
+
+
+
+require 引用
+
+request-> 请求 前台 -》 后台
+response -》 后台 -》 前台
+
+宾馆 - 1040 - 1041
+
+——  百度 【贴吧 图片 新闻】 ——
+
+——  自己的服务器 游戏 音乐 新闻 ——
+
+		小王	：1911 游戏 
+			：2213 音乐
+			：2133 新闻
+
+
+Access-Control-Allow-Origin
+跨域了
+访问  控制  允许  起源
+跨域 -> 跨域 域名 
+
+一个域名下 可以  o 
+后台允许跨域     o
+
+response.setHeader('Access-Control-Allow-Origin','*');
+
+状态码
+用遥控器操作的都有 
+红外
+01 
+
+电视接收数据的终端
+01 开机
+02 关机
+03 声音
+
+0 － （未初始化）还没有调用send()方法 
+1 － （载入）已调用send()方法，正在发送请求 
+2 － （载入完成）send()方法执行完成，已经接收到全部响应内容 
+3 － （交互）正在解析响应内容 
+4 － （完成）响应内容解析完成，可以在客户端调用了
+
+ajax.readyState == 4 可使用后台数据了 
+
+post 可以传输各种各样的数据 
+所以要告诉后台你要传输的数据类型是什么
+
+querystring -> 解析咱们的post 数据
+
+get ->  req.url 
+post -> req.on('data',function(data){});
+		req.on('end',function(){
+
+		});
+
+url -> 能解析 get的请求
+      //querystring.parse(urlLib.parse(data).query)
+      urlLib.parse(data,true)
+      query -> json  true
+      query -> str   no true
+
+
+fs ->  files -> 文档文件模块
+增
+
+	writeFile(名字，内容，fn)
+	readFile（'./'+名字,function(err,data){}）
+
+
+
+
+
+
+
+
+
+
+
+
+

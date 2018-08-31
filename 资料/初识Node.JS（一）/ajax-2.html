@@ -1,0 +1,116 @@
+<!doctype html> 
+<html> 
+<head> 
+    <meta charset="utf-8"> 
+    <title></title> 
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+</head>
+<body>
+用户:<input id='user'><br>
+密码:<input id='pass'><br>
+<input type='button' value='登录' id='btn'>
+<script type="text/javascript">
+	
+//https://www.baidu.com/s?wd=http状态码
+/*
+$.ajax({
+	url:http://localhost:9217
+	type:get
+	data:{
+
+	},
+	success:function(data){},
+	error:function(){}
+})
+*/
+
+
+btn.onclick = function(){
+	ajax({
+		type:'get',
+		url:'http://localhost:9217',
+		data:{
+			user:user.value,
+			pass:pass.value
+		},
+		success:function(data){
+			//console.log(data)
+			if(data=='登陆成功'){
+				document.body.style.background ='green';
+			}
+			else{
+				alert('登陆失败了哥们')
+			}
+		
+		},
+		error:function(){
+			console.log('服务器错误~')
+		}
+
+	})
+};
+
+
+
+
+
+function ajax(option){
+//	console.log(option.data)
+	//{user:leo,pass:123456}
+	//user=leo&pass=123456
+
+
+	var ajax = new XMLHttpRequest();
+	ajax.open(option.type,option.url+'?'+JsonToString(option.data),true);
+	ajax.send();
+	ajax.onreadystatechange=function(){
+		//console.log(ajax.readyState)
+		if(ajax.readyState == 4){
+			if(ajax.status>=200&&ajax.status<300||ajax.status==304){
+				option.success(ajax.responseText)
+				//console.log()
+			}
+			else{
+				option.error();
+			//	console.log('服务器错误-')
+			}
+			//console.log(ajax.status)
+			//console.log(ajax.responseText)
+		}
+	}
+
+
+	function JsonToString(json){
+		var arr = [];
+		for(var i in json){
+			//console.log(i+option.data[i])
+			arr.push(i+'='+json[i])
+		};
+		//console.log(arr.join('&'));
+		return arr.join('&');
+	}
+}
+
+
+/*
+if(ajax.readyState==4){
+	alert(1);
+}
+*/
+/*
+console.log(ajax.readyState)
+
+setTimeout(function(){
+	console.log(ajax.readyState)
+},100);
+console.log(ajax.responseText)
+*/
+
+
+
+
+
+</script>
+</body>
+</html>

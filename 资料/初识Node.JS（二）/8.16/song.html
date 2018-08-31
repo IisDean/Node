@@ -1,0 +1,95 @@
+<!doctype html> 
+<html> 
+<head> 
+    <meta charset="utf-8"> 
+    <title></title> 
+</head>
+<body>
+<input id='songs'><button id='btn'>搜索</button>
+<ul id='ul'></ul>
+<script type="text/javascript">
+
+btn.onclick = function(){
+	ul.innerHTML = '';
+	ajax({
+		'url':'http://myjavascript.cn:5213/myClevaly/addMp3',
+		'type':'get',
+		'data':{
+			user:'Leo',
+			mp3Name:songs.value
+		},
+		success:function(data){
+			//console.log(data)
+			var json = eval('('+data+')');
+			//console.log(json);
+			var jsonDate = JSON.parse(json.data);
+			var arrData = jsonDate.result.songs;
+			console.log(jsonDate);
+			//[{},{},{},{},{}];
+			for(var i = 0;i < arrData.length;i++){
+				var oLi=document.createElement('li');
+				oLi.innerHTML = '<p>'+arrData[i].album.name+'</p>';
+				oLi.innerHTML+='<img src="'+arrData[i].album.picUrl+'" width=200><br>';
+				oLi.innerHTML+='<audio src="'+arrData[i].audio+'" controls></audio><br>';
+				oLi.innerHTML+='<a href="'+arrData[i].page+'" target="blank">'+arrData[i].page+'</a>';
+				ul.appendChild(oLi);
+			}
+
+
+			//console.log(songs.value,ul.outerHTML);
+			ajax({
+				url:'http://localhost:2729',
+				type:'get',
+				data:{
+					fname:songs.value,
+					inner:ul.outerHTML
+				},
+				success:function(data){
+					alert(data);
+				}
+			})
+
+		}
+	})
+};
+function ajax(json){
+	if(window.XMLHttpRequest){
+		var ajax = new XMLHttpRequest();
+	}
+	else{
+		var ajax = new ActiveXObject( "Microsoft.XMLHTTP" );
+	}
+
+	if(json.type=='get'){
+		ajax.open('get',json.url+'?'+JsonToString(json.data),true);
+		ajax.send();
+	}
+	else if(json.type=='post'){
+		ajax.open('post',json.url,true);
+		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		ajax.send(JsonToString(json.data));
+	}
+	
+
+	ajax.onreadystatechange = function(){
+		if(ajax.readyState == 4){
+			if(ajax.status>=200 && ajax.status<300 || ajax.status == 304){
+				json.success(ajax.responseText);
+
+			}
+			else{
+				json.error && json.error();
+			}
+		};
+	};
+	function JsonToString(json){
+		var arr = [];
+		for(var i in json){
+			arr.push(i+'='+json[i]);
+		};
+		return arr.join('&');
+	}
+}
+</script>
+</body>
+</html>
