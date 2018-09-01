@@ -53,4 +53,4 @@ http.createServer(function(request,response){
 	// response.end();
 
 	// console.log('今天天气不错');
-}). listen(9218);
+}).listen(9218);
