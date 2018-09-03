@@ -1,16 +1,17 @@
 <html>
 	<head></head>
 	<body>
-		<input type="text" id="user">
-		<input type="password" id="pass">
-		<button id="submit">提交</button>
+		账号：<input type="text" id="user"><br/>
+		密码：<input type="password" id="pass"><br/>
+		<button id="res">注册</button>
+		<button id="login">登录</button>
 	</body>
 	<script>
-		submit.onclick = function(){
+		res.onclick = function(){
 
 			ajax({
-				url: 'http://localhost:1111',
-				type: 'post',
+				url: 'http://localhost:9218',
+				type: 'get',
 				data: {
 					user: user.value,
 					pass: pass.value
@@ -25,6 +26,27 @@
 
 
 		}
+
+		login.onclick = function(){
+
+			ajax({
+				url: 'http://localhost:9219',
+				type: 'get',
+				data: {
+					user: user.value,
+					pass: pass.value
+				},
+				success: function(data){
+					console.log(data);
+				},
+				error: function(){
+					console.log('服务器错误');
+				}
+			});
+
+
+		}
+
 
 		function ajax(option){
 
