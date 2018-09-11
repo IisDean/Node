@@ -7,10 +7,10 @@
 		<button id="login">登录</button>
 	</body>
 	<script>
-		res.onclick = function(){
+		// res.onclick = function(){
 
 			ajax({
-				url: 'http://localhost:9527',
+				url: 'http://localhost:9527/dean',
 				type: 'post',
 				data: {
 					user: user.value,
@@ -25,7 +25,7 @@
 			});
 
 
-		}
+		// }
 
 
 		function ajax(option){
