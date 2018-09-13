@@ -12,4 +12,9 @@ server.use('',function(req,res,next){
     next();
 });
 
+server.use('/dean',function(req,res){
+	console.log(req.cookies);
+	res.send('ok');
+});
+
 server.use(static('./'));
