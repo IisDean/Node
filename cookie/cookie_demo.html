@@ -9,10 +9,28 @@
 	</body>
 	<script>
 
-		login.onclick = function(){
+		ajax({
+			url: 'http://localhost:2713/dean',
+			type: 'post',
+			success: function(data){
+				var str = JSON.parse(data);
+				user.value = str.user;
+				pass.value = str.password;
+				loginSubmit();
+			},
+			error: function(){
+				console.log('服务器错误');
+			}
+		});
 
+		login.onclick = function(){
+			loginSubmit();
+		}
+
+		//登录
+		function loginSubmit(){
 			ajax({
-				url: 'http://localhost:2713/dean',
+				url: 'http://localhost:2713/login',
 				type: 'get',
 				data: {
 					user: user.value,
@@ -25,8 +43,6 @@
 					console.log('服务器错误');
 				}
 			});
-
-
 		}
 
 
