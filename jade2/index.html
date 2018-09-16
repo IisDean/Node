@@ -1,0 +1,68 @@
+<html>
+	<head></head>
+	<body>
+		账号：<input type="text" id="user"><br/>
+		密码：<input type="password" id="pass"><br/>
+		<button id="res">注册</button>
+		<button id="login">登录</button>
+	</body>
+	<script>
+		res.onclick = function(){
+
+			ajax({
+				url: 'http://localhost:8020/resign',
+				type: 'get',
+				data: {
+					user: user.value,
+					pass: pass.value
+				},
+				success: function(data){
+					console.log(data);
+				},
+				error: function(){
+					console.log('服务器错误');
+				}
+			});
+
+
+		}
+
+
+		function ajax(option){
+
+			if( window.XMLHttpRequest ){
+				var ajax = new XMLHttpRequest();	
+			}else{
+				var ajax = new ActiveXObject( "Microsoft.XMLHTTP" );
+			}
+			
+			if( option.type == 'get' ){
+				ajax.open('get', option.url +'?'+ JsonToString(option.data) ,true);
+				ajax.send();
+			}else if( option.type == 'post' ){
+				ajax.open('post', option.url,true);
+				ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+				ajax.send(JsonToString(option.data));
+			}
+
+			ajax.onreadystatechange = function(){
+				if( ajax.readyState == 4 ){
+					if( ajax.status >= 200 && ajax.status < 300 || ajax.status == 304 ){
+						option.success(ajax.responseText);
+					}else{
+						option.success(ajax.responseText);
+					}
+				}
+			}
+
+			function JsonToString(json){
+				var arr = [];
+				for(var i in json){
+					arr.push(i+'='+json[i]);
+				};
+				return arr.join('&');
+			}
+		}
+
+	</script>
+</html>
