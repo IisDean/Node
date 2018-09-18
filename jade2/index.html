@@ -5,6 +5,10 @@
 		密码：<input type="password" id="pass"><br/>
 		<button id="res">注册</button>
 		<button id="login">登录</button>
+		<label>
+			<input type="checkbox" name="" id="zidong" />
+			自动登录
+		</label>
 	</body>
 	<script>
 		res.onclick = function(){
@@ -15,6 +19,26 @@
 				data: {
 					user: user.value,
 					pass: pass.value
+				},
+				success: function(data){
+					console.log(data);
+				},
+				error: function(){
+					console.log('服务器错误');
+				}
+			});
+
+
+		}
+		login.onclick = function(){
+
+			ajax({
+				url: 'http://localhost:8020/login',
+				type: 'get',
+				data: {
+					user: user.value,
+					pass: pass.value,
+					isCookie: zidong.checked
 				},
 				success: function(data){
 					console.log(data);
