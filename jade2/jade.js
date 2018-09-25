@@ -1,11 +1,13 @@
 var express = require('express');
 var	static = require('express-static');
-var	cookieParser = require('cookie-parser');
+var cookieParser = require('cookie-parser');//取cookie值插件
 var	fs = require('fs');
 
 var server = express();
 server.listen(8020);
 
+
+server.use(cookieParser('ADSKFIJDLAJLKDAFJKDAFADSKF'));
 server.use('/resign',resign);//注册
 server.use('/login',login);//登录
 
@@ -17,14 +19,15 @@ function login(req,res){
 			console.log('err:'+err);
 		}else{
 			var jsonData = JSON.parse(data);
-			if( jsonData[req.query.user] ){
-				if( jsonData[req.query.user] == req.query.pass ){
-					res.send('登录成功');
-				}else{
-					res.send('用户名或者密码错误');
+			if( jsonData[req.query.user] == req.query.pass ){
+
+				var isCookie = JSON.parse(req.query.isCookie);
+				if( isCookie ){
+					res.cookie('user',req.query.user,{signed: true,maxAge: 1000*60*5});
 				}
+				res.send('登录成功');		
 			}else{
-				res.send('用户名不存在');
+				res.send('用户名或者密码错误');			
 			}
 		}
 	});
@@ -53,3 +56,4 @@ function resign(req,res){
 		}
 	});
 }
+
