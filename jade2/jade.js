@@ -8,12 +8,14 @@ server.listen(8020);
 
 
 server.use(cookieParser('ADSKFIJDLAJLKDAFJKDAFADSKF'));
-server.use('/resign',resign);//注册
-server.use('/login',login);//登录
+server.use('/resign',HandleResign);//注册
+server.use('/login',HandleLogin);//登录
+server.use('/autoLogin',HandleAutoLogin);//登录
 
 server.use(static('./'));
 
-function login(req,res){
+//登录
+function HandleLogin(req,res){
 	fs.readFile('./name.txt',function(err,data){
 		if( err ){
 			console.log('err:'+err);
@@ -23,7 +25,9 @@ function login(req,res){
 
 				var isCookie = JSON.parse(req.query.isCookie);
 				if( isCookie ){
-					res.cookie('user',req.query.user,{signed: true,maxAge: 1000*60*5});
+					res.cookie('user',req.query.user+'-'+req.query.pass,{signed: true,maxAge: 1000*60*5});
+				}else{
+					res.clearCookie('user');
 				}
 				res.send('登录成功');		
 			}else{
@@ -34,7 +38,7 @@ function login(req,res){
 }
 
 //注册
-function resign(req,res){
+function HandleResign(req,res){
 	fs.readFile('./name.txt',function(err,data){
 		if( err ){
 			console.log('err:'+err);
@@ -52,6 +56,26 @@ function resign(req,res){
 						res.send('注册成功');
 					}
 				});
+			}
+		}
+	});
+}
+
+//自动登录
+function HandleAutoLogin(req,res){
+	var json = req.signedCookies;
+	if( json.user == undefined )return res.send('自动登录失败');
+	var user = json.user.split('-')[0];
+	var pass = json.user.split('-')[1];
+	fs.readFile('./name.txt',function(err,data){
+		if( err ){
+			console.log('err:'+err);
+		}else{
+			var jsonData = JSON.parse(data);
+			if( jsonData[user] == pass ){
+				res.send('登录成功');		
+			}else{
+				res.send('用户名或者密码错误');			
 			}
 		}
 	});

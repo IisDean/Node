@@ -48,9 +48,18 @@
 				}
 			});
 
-
 		}
 
+		ajax({
+			url: 'http://localhost:8020/autoLogin',
+			type: 'get',
+			success: function(data){
+				console.log(data);
+			},
+			error: function(){
+				console.log('服务器错误');
+			}
+		});
 
 		function ajax(option){
 
