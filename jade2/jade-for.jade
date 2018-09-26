@@ -1,0 +1,30 @@
+html
+	head
+		meta(charset="utf-8")
+		title
+		style.
+			div{width:100px;height:100px;}
+			.green {background-color: green}
+			.yellow {background-color: yellow}
+			.red {background-color: red}
+			.blue {background-color: blue}
+	body
+		-var f = ['green','yellow','red','blue']
+		-for(var i = 0;i<f.length;i++)
+			div(class=f[i]) 
+				span=f[i]
+
+		-var item = 0
+		-while(item<10)
+			-item++
+			div=item
+
+		-var item2 = 10
+		case item2
+			when 10
+				div aaa
+			when 12
+				div bbb
+			default
+				div ccc
+
