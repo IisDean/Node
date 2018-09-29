@@ -5,7 +5,8 @@
 	<meta charset="utf-8">
 </head>
 <body>
-	<form action="http://localhost:8020/" method="post">
+	<!-- 默认为文字发送 enctype="multipart/form-data" 改为文件发送 -->
+	<form action="http://localhost:8020/" method="post" enctype="multipart/form-data">
 		<input type="file" name="fileName" />
 		<input type="submit" name="">
 	</form>
