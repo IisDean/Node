@@ -1,0 +1,15 @@
+doctype
+html
+	head
+		meta(charset='utf-8')
+		title
+		style.
+			ul{width:100%;}
+	body
+		ul
+			-var arr = ['用户','文章','新闻'],link=['user','list','news']
+			-for(var i = 0;i<arr.length;i++)
+				li
+					a(href="localhost:8020/#{link[i]}")=arr[i]
+		ol
+			
