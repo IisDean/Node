@@ -1,0 +1,18 @@
+doctype
+html
+	head
+		meta(charset='utf-8')
+		title
+		style.
+			span{float:right;}
+			ol li {list-style: none;float:left;margin:20px;}
+	body
+		ul
+			-for(var i=0;i<arr.length;i++)
+				li
+					a(href="http://localhost:8020/news?uid="+arr[i].id)=arr[i].textName
+					span=arr[i].time
+		ol
+			-for(var i=0;i<Math.ceil(arr2.length/3);i++)
+				li
+					a(href='http://localhost:8020/list?page='+i)=i+1
