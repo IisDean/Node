@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>文件上传</title>
+	<style type="text/css">
+		.drag-wrap {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			margin: auto;
+			width: 200px;
+			height: 200px;
+			line-height: 200px;
+			border: 2px dashed #000;
+			background-color: #fff;
+			text-align: center;
+		}
+		.uploadImgSrc {
+			display: block;
+			width: 100px;
+		}
+		.progress-wrap {
+			position: absolute;
+			bottom: 0;
+			height: 10px;
+			background: -webkit-linear-gradient(left,#ccc,black);
+		}
+	</style>
+</head>
+<body>
+
+	<div class="drag-wrap" id="dragWrap">请拖入文件</div>
+
+	<img id="uploadImgSrc" src="">
+
+	<div id="progress" class="progress-wrap"></div>
+
+</body>
+<script type="text/javascript">
+
+
+	dragWrap.ondragenter = function(){
+		this.innerHTML = '请松手';
+	}
+
+	dragWrap.ondragleave = function(){
+		this.innerHTML = '请拖入文件';
+	}
+
+	dragWrap.ondragover = function(event){
+		event.preventDefault();
+	}
+
+	dragWrap.ondrop = function(event){
+		var oFile = event.dataTransfer.files[0];
+		var oForm = new FormData();
+		oForm.append('files',oFile);
+		var xhr = new XMLHttpRequest();
+		xhr.open('post','http://localhost:8020/setFiles',true);
+		xhr.onload = function(){
+			uploadImgSrc.src = xhr.responseText;
+		};
+		xhr.upload.onprogress = function(e){
+			console.log(e.loaded,e.total);
+			progress.style.width = parseInt(e.loaded/e.total)*100+'%';
+			if( e.loaded/e.total >= 1 )progress.style.width = 0;
+		}
+		xhr.send(oForm);
+		event.preventDefault();
+	}
+
+	function ajax(option){
+
+			if( window.XMLHttpRequest ){
+				var ajax = new XMLHttpRequest();	
+			}else{
+				var ajax = new ActiveXObject( "Microsoft.XMLHTTP" );
+			}
+			
+			if( option.type == 'get' ){
+				ajax.open('get', option.url +'?'+ JsonToString(option.data) ,true);
+				ajax.send();
+			}else if( option.type == 'post' ){
+				ajax.open('post', option.url,true);
+				ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+				ajax.send(JsonToString(option.data));
+			}
+
+			ajax.onreadystatechange = function(){
+				if( ajax.readyState == 4 ){
+					if( ajax.status >= 200 && ajax.status < 300 || ajax.status == 304 ){
+						option.success(ajax.responseText);
+					}else{
+						option.success(ajax.responseText);
+					}
+				}
+			}
+
+			function JsonToString(json){
+				var arr = [];
+				for(var i in json){
+					arr.push(i+'='+json[i]);
+				};
+				return arr.join('&');
+			}
+		}
+</script>
+</html>
