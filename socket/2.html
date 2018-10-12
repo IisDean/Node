@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="http://localhost:8020/socket.io/socket.io.js"></script>
+</head>
+<body>
+
+	<input type="text" name="" id="t">
+	<button id="b">发送</button>
+	<ul id="ul"></ul>
+
+	<script type="text/javascript">
+		onload = ()=>{
+			var conn = io.connect('ws://localhost:8020');
+
+			b.onclick = ()=>{
+				conn.emit('aa',t.value);
+			}
+
+			conn.on('msg',(str)=>{
+				console.log(str);
+			});	
+		}
+	</script>
+</body>
+</html>
