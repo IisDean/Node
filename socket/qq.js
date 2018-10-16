@@ -22,7 +22,7 @@ io.listen(server).on('connection',(user)=>{
 		console.log(str);
 		var json = {userName: user.lastName,contents: str,timer: new Date().toLocaleTimeString()};
 		user.broadcast.emit('msg',json);
-		user.emit('msg',json);
+		user.emit('myselfMsg',json);
 	});
 
 	//用户下线

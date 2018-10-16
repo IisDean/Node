@@ -37,6 +37,10 @@
 		.textList {
 			margin: 10px; 
 		}
+		.myself {
+			font-weight: bold;
+			color: #f00;
+		}
 	</style>
 </head>
 <body>
@@ -47,7 +51,7 @@
 		<button id="btnSure">确定</button>
 	</div>
 
-	<div class="textNode" id="textNode">
+	<div class="textNode" id="msgListCon">
 		<ul id="textUl">
 		</ul>
 	</div>
@@ -66,24 +70,36 @@
 			conn.emit('name',userInput.value);
 			userName.style.transform = 'translateY(-100%)';
 
+			//聊天信息接收
 			conn.on('msg',(json)=>{
 				textUl.appendChild(createTextLi(json));
+				msgListCon.scrollTop = msgListCon.scrollHeight;
+			});
+			//聊天信息接收 -自己
+			conn.on('myselfMsg',(json)=>{
+				textUl.appendChild(createTextLi(json,true));
+				msgListCon.scrollTop = msgListCon.scrollHeight;
 			});
 
+			//用户列表更新
 			conn.on('userUpdata',(arr)=>{
 				createUserLi(arr);
 			});
 
+			//用户上线提示
 			conn.on('userUp',(str)=>{
 				createTextLi({userName:'系统提示',timer: new Date().toLocaleTimeString(),contents: str+'下线了'});
-
 			});
 		}
 
 		//创建聊天信息列表
-		function createTextLi(json){
+		function createTextLi(json,isMyself){
 			var li = document.createElement('li');
-			li.className = 'textList';
+			if( isMyself ){
+				li.className = 'textList myself';
+			}else{
+				li.className = 'textList';
+			}
 			li.innerHTML += '<p>'+ json.userName +'  '+ json.timer +'</p>';
 			li.innerHTML += '<p>'+ json.contents +'</p>';
 			return li;
@@ -102,7 +118,8 @@
 
 		btn.onclick = function(){
 			conn.emit('msg',textNode.value);
-			textNode.value = '';
+			console.log(textNode.value);
+			// textNode.value = '';
 		}
 
 
