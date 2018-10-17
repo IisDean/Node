@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>众人砍Boss</title>
+	<script type="text/javascript" src="http://192.168.9.138:8020/socket.io/socket.io.js"></script>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html {overflow: hidden;}
+		body {
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+		.blood {
+			margin: 200px auto 0; 
+			width: 80%;
+			height: 20px;
+			border: 2px solid #000;
+			overflow: hidden;
+		}
+		.blood-wrap {
+			width: 100%;
+			height: 100%;
+			background-color: #f00;
+		}
+		.boss-wrap {
+			display: block;
+			margin: 150px auto 0;
+			width: 300px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="blood">
+		<div class="blood-wrap" id="progress"></div>
+	</div>
+
+	<img class="boss-wrap" id="boss" src="boss.jpg">
+
+	<script type="text/javascript">
+		
+		window.onload = x=>{
+
+			let conn = io.connect('ws://192.168.9.138:8020');
+			conn.on('msg',(str)=>{
+				console.log(str);
+			});
+
+			((b)=>{
+				function play(){
+					var x = 0,t = null;
+					t = setInterval(()=>{
+						if( x==10 ){
+							clearInterval(t);
+							b.style.top = b.style.left = '0px';
+							return;
+						}
+						x++;
+						b.style.top = b.style.left = Math.random()*20 -10 + 'px';
+					},3E1);
+				}
+
+				boss.onclick = ()=>{
+					conn.emit('kill',1);
+				}
+
+				conn.on('kill',(arr)=>{
+					play();
+					progress.style.width = arr[0]*100+'%';
+					var oDiv = document.createElement('div');
+					oDiv.innerHTML = parseInt(arr[1]);
+					oDiv.style.position = 'absolute';
+					oDiv.style.top = '45%';
+					oDiv.style.left = '50%';
+					oDiv.style.color = '#f00';
+					oDiv.style.fontSize = '30px';
+					oDiv.style.transition = '0.7s';
+					b.appendChild(oDiv);
+					setTimeout(()=>{
+						oDiv.style.transform = 'translateY(-40px)';
+						oDiv.style.opacity = '0';
+					},100);
+					setTimeout(function(){
+						oDiv.remove();
+					},700);
+				});
+
+			})(document.body);
+		}
+
+	</script>
+</body>
+</html>
